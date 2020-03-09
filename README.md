@@ -55,3 +55,11 @@ def validate(cc_num):
 
 if __name__ == "__main__":
     print(validate(get_cc_number()))
+    
+    a) 4137 8947 1175 5904 is a valid credit card number
+    b) 6499 8024 5027 3568 is an invalid credit card number
+    c) 8504 1721 9127 3888 is a valid credit card number
+    d) 0043 6687 8348 5480 is an invalid credit card number
+
+
+    
