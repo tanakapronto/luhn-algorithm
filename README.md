@@ -1,42 +1,57 @@
 # luhn-algorithm
-// CPP program to implement Luhn algorithm 
-#include <bits/stdc++.h> 
-using namespace std; 
-  
-// Returns true if given card number is valid 
-bool checkLuhn(const string& cardNo) 
-{ 
-    int nDigits = cardNo.length(); 
-  
-    int nSum = 0, isSecond = false; 
-    for (int i = nDigits - 1; i >= 0; i--) { 
-  
-        int d = cardNo[i] - '0'; 
-  
-        if (isSecond == true) 
-            d = d * 2; 
-  
-        // We add two digits to handle 
-        // cases that make two digits after 
-        // doubling 
-        nSum += d / 10; 
-        nSum += d % 10; 
-  
-        isSecond = !isSecond; 
-    } 
-    return (nSum % 10 == 0); 
-} 
-  
-// Driver code 
-int main() 
-{ 
-    string cardNo = "4137 8947 1175 5904"; 
-    if (checkLuhn(cardNo)) 
-        printf("This is a valid card"); 
-    else
-        printf("This is not a valid card"); 
-    return 0; 
-} 
+import sys
 
 
+def usage():
+    msg = """
 
+        usage:
+        python3 credit_card_validator credit_card_number
+
+        example:
+        python3 credit_card_validator 34678253793
+
+    """
+    print(msg)
+
+
+def get_cc_number():
+    if len(sys.argv) < 2:
+        usage()
+        sys.exit(1)
+
+    return sys.argv[1]
+
+
+def sum_digits(digit):
+    if digit < 10:
+        return digit
+    else:
+        sum = (digit % 10) + (digit // 10)
+        return sum
+
+
+def validate(cc_num):
+    # reverse the credit card number
+    cc_num = cc_num[::-1]
+    # convert to integer list
+    cc_num = [int(x) for x in cc_num]
+    # double every second digit
+    doubled_second_digit_list = list()
+    digits = list(enumerate(cc_num, start=1))
+    for index, digit in digits:
+        if index % 2 == 0:
+            doubled_second_digit_list.append(digit * 2)
+        else:
+            doubled_second_digit_list.append(digit)
+
+    # add the digits if any number is more than 9
+    doubled_second_digit_list = [sum_digits(x) for x in doubled_second_digit_list]
+    # sum all digits
+    sum_of_digits = sum(doubled_second_digit_list)
+    # return True or False
+    return sum_of_digits % 10 == 0
+
+
+if __name__ == "__main__":
+    print(validate(get_cc_number()))
